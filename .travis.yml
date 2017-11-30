@@ -44,22 +44,27 @@ before_script:
 
 script:
   - |
-    if [ -n "$TRAVIS_TAG" ]; then
-      if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-        echo '____RUNNING DOCKER____'
-        docker run --rm \
-          --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
-          -v ${PWD}:/project \
-          -v ~/.cache/electron:/root/.cache/electron \
-          -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-          electronuserland/builder:wine \
-          /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn release --linux --win && ls -l ./dist"
-      else
-        npm install --quiet && npm run pub
-      fi
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      echo '____RUNNING DOCKER____'
+      docker run --rm \
+        --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+        -v ${PWD}:/project \
+        -v ~/.cache/electron:/root/.cache/electron \
+        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        patriziobruno/electron-flatpak:wine \
+        /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn release --linux --win && ls -l ./dist"
+      echo '____RUNNING DOCKER____'
+      docker run --rm --privileged \
+        --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+        -v ${PWD}:/project \
+        -v ~/.cache/electron:/root/.cache/electron \
+        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        patriziobruno/electron-flatpak:wine \
+        /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn build && DEBUG=* yarn flatpak64 && ls -l ./dist/installers"
     else
-      npm install --quiet && gulp build
+      npm install --quiet && npm run pub
     fi
+
 
 after_success:
   - 'echo "DIST-RESULT:"'
@@ -71,15 +76,14 @@ after_success:
       docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq && cd $(pwd) && snapcraft push ./dist/*.snap --release stable"
     fi
   - |
-    if [ -n "$TRAVIS_TAG" ]; then
-      echo "UPLOADING BINARIES:"
-      rename "s/[0-9]+\.[0-9]+\.[0-9]+/latest/" ./dist/super*
-      rename "s/\s+/_/g" ./dist/super*
-      echo "RENAMED-DIST-RESULT:"
-      ls -l ./dist
-      sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
-      sshpass -p "$DEPLOY_PASS" scp dist/super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads'
-    fi
+    echo "UPLOADING BINARIES:"
+    rename "s/[0-9]+\.[0-9]+\.[0-9]+/latest/" ./dist/super*
+    rename "s/\s+/_/g" ./dist/super*
+    echo "RENAMED-DIST-RESULT:"
+    ls -l ./dist
+    sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
+    sshpass -p "$DEPLOY_PASS" scp dist/super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads'
+    sshpass -p "$DEPLOY_PASS" scp dist/installers/com.super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads'
 
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superProductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superproductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'

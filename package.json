@@ -67,15 +67,7 @@
         "snap"
       ],
       "publish": [
-        "github",
-        {
-          "provider": "bintray",
-          "package": "main",
-          "repo": "super-productivity",
-          "component": "super-productivity",
-          "owner": "johannesjo",
-          "distribution": "stable"
-        }
+        "github"
       ]
     },
     "snap": {

@@ -1,6 +1,8 @@
 <header class="work-view-header">
   <div class="status-bar">
-    <div class="item"><span class="label">Working today:</span>
+    <div class="item">
+      <span class="label"
+            translate-once="WV.WORKING_TODAY"></span>
       <span class="no-wrap">
       <strong ng-bind="vm.totalTimeWorkedToday|duration"></strong>
       <ng-md-icon icon="timer"></ng-md-icon>
@@ -8,7 +10,8 @@
     </div>
 
     <div class="item">
-      <span class="label">Estimate remaining:</span>
+      <span class="label"
+            translate-once="WV.ESTIMATE_REMAINING"></span>
       <span class="no-wrap">
       ~<strong ng-bind="vm.totalEstimationRemaining|duration"></strong>
       <ng-md-icon icon="timer"></ng-md-icon>
@@ -17,7 +20,8 @@
 
     <div class="item"
          ng-if="vm.config.isShowTimeWorkedWithoutBreak">
-      <span class="label">Without break: </span>
+      <span class="label"
+            translate-once="WV.WITHOUT_BREAK"></span>
       <span class="no-wrap">
         <strong ng-bind="vm.session.timeWorkedWithoutBreak|duration"></strong><ng-md-icon icon="timer"></ng-md-icon>
       </span>
@@ -38,7 +42,8 @@
 </header>
 
 <section class="work-view-tasks work-view-tasks--undone">
-  <p ng-if="!vm.tasksUndone.length">You currently have no undone tasks.</p>
+  <p ng-if="!vm.tasksUndone.length"
+     translate-once="WV.NO_UNDONE_TASKS"></p>
 
   <task-list tasks="vm.tasksUndone"
              current-task-id="r.currentTask.id"
@@ -50,24 +55,25 @@
 <md-button ng-click="vm.openAddTask()"
            class="md-primary md-raised">
   <ng-md-icon icon="add"></ng-md-icon>
-  Add new Task
+  <span translate-once="WV.ADD_NEW_TASK"></span>
 </md-button>
 
 
 <md-button ui-sref="daily-summary"
            class="md-primary md-raised">
   <ng-md-icon icon="done_all"></ng-md-icon>
-  Finish your work day
+  <span translate-once="WV.FINISH_WORK_DAY"></span>
 </md-button>
 
 
 <h2 class="md-title">
   <ng-md-icon icon="playlist_add_check"></ng-md-icon>
-  Done Tasks
+  <span translate-once="WV.DONE_TASKS"></span>
 </h2>
 
 <section class="work-view-tasks work-view-tasks--done">
-  <p ng-if="!vm.tasksDone.length">You currently have no done tasks.</p>
+  <p ng-if="!vm.tasksDone.length"
+     translate-once="WV.NO_DONE_TASKS"></p>
 
   <task-list tasks="vm.tasksDone"
              is-hide-controls="vm.isHideControls"

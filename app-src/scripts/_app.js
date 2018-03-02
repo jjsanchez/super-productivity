@@ -32,9 +32,11 @@
       'angularMoment',
       'hc.marked',
       'mwl.calendar',
-      'angularPromiseButtons'
+      'angularPromiseButtons',
+      'pascalprecht.translate'
     ])
     .config(configMdTheme)
+    .config(configTranslations)
     .config(configMarked)
     .config(fixUnhandledRejectionError)
     .config(configPromiseButtons)
@@ -63,6 +65,15 @@
       btnLoadingClass: 'is-loading',
       minDuration: 100,
       priority: 100
+    });
+  }
+
+  /* @ngInject */
+  function configTranslations($translateProvider) {
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.useStaticFilesLoader({
+      prefix: './translations/',
+      suffix: '.json'
     });
   }
 

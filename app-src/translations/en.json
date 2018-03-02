@@ -1,0 +1,12 @@
+{
+  "WV":{
+    "WORKING_TODAY": "Working today:",
+    "ESTIMATE_REMAINING": "Estimate remaining: ~:",
+    "NO_UNDONE_TASKS":"You currently have no undone tasks.",
+    "ADD_NEW_TASK":"Add new Task",
+    "FINISH_WORK_DAY":"Finish your work day",
+    "DONE_TASKS":"Done Tasks",
+    "NO_DONE_TASKS":"You currently have no done tasks.",
+    "WITHOUT_BREAK":"Without break:"
+  }
+}

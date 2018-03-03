@@ -30,13 +30,6 @@
     "release.changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
     "version": "run-s release.changelog && gulp versionConst && git add -A"
   },
-  "publish": [
-    {
-      "provider": "github",
-      "repo": "super-productivity",
-      "owner": "johannesjo"
-    }
-  ],
   "build": {
     "appId": "superProductivity",
     "files": [
@@ -44,10 +37,7 @@
       "app/**/*"
     ],
     "mac": {
-      "category": "productivity",
-      "publish": [
-        "github"
-      ]
+      "category": "productivity"
     }
   },
   "devDependencies": {

@@ -35,7 +35,6 @@ before_script:
 
 script:
   - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       echo '____RUNNING DOCKER____'
       docker run --rm \
         --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
@@ -44,9 +43,6 @@ script:
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine-chrome \
         /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn run distLinuxAndWindows && ls -l ./dist && exit 0"
-    else
-      npm install --quiet && npm install 7zip-bin-mac && npm run pub
-    fi
 
 
 

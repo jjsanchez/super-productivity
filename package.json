@@ -48,18 +48,6 @@
       "publish": [
         "github"
       ]
-    },
-    "linux": {
-      "category": "Utility",
-      "target": [
-        "AppImage"
-      ],
-      "publish": [
-        "github"
-      ]
-    },
-    "snap": {
-      "grade": "stable"
     }
   },
   "devDependencies": {

@@ -48,25 +48,7 @@ script:
       npm install --quiet && npm install 7zip-bin-mac && npm run pub
     fi
 
-after_success:
-  - 'echo "DIST-RESULT:"'
-  - 'ls -l ./dist'
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
-      openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv -in .snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d
-      docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq && cd $(pwd) && snapcraft push ./dist/*.snap --release stable"
-    fi
-  - |
-    if [ -n "$TRAVIS_TAG" ]; then
-      echo "UPLOADING BINARIES:"
-      rename "s/[0-9]+\.[0-9]+\.[0-9]+/latest/" ./dist/super*
-      rename "s/\s+/_/g" ./dist/super*
-      echo "RENAMED-DIST-RESULT:"
-      ls -l ./dist
-      sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
-      sshpass -p "$DEPLOY_PASS" scp dist/super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads'
-    fi
+
 
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superProductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superproductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'

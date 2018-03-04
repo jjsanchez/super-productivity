@@ -24,7 +24,7 @@
     "localInstall": "sudo echo 'Starting local install' && rm -Rf ./dist/ && gulp build && electron-builder --linux && sudo dpkg -i dist/superProductivity*.deb",
     "buildFrontend": "gulp build",
     "dist": "run-s buildFrontend && electron-builder",
-    "distLinuxAndWindows": "run-s buildFrontend && electron-builder --linux --win",
+    "distLinuxAndWindows": "run-s buildFrontend && electron-builder --linux --win -p always",
     "pub": "run-s buildFrontend && electron-builder -p always",
     "release": "run-s release.changelog dist",
     "release.changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
@@ -35,10 +35,7 @@
     "files": [
       "electron/**/*",
       "app/**/*"
-    ],
-    "mac": {
-      "category": "productivity"
-    }
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

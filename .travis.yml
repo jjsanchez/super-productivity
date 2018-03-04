@@ -42,7 +42,7 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine-chrome \
-        /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn run dist && ls -l ./dist && exit 0"
+        /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn build && electron-builder &&  /bin/bash -c "echo 'DOOOOOOOOOOOOOOOOOOOOOOOOOONE DOCKER DOCKER XXX123'"
 
 
 

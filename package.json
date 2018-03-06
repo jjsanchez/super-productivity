@@ -24,6 +24,7 @@
     "localInstall": "sudo echo 'Starting local install' && rm -Rf ./dist/ && gulp build && electron-builder --linux && sudo dpkg -i dist/superProductivity*.deb",
     "buildFrontend": "gulp build",
     "electronBulderOnly": "electron-builder",
+    "electronBulderOnlyPub": "electron-builder -p always",
     "dist": "run-s buildFrontend && electron-builder",
     "distLinuxAndWindows": "run-s buildFrontend && electron-builder --linux --win -p always",
     "pub": "run-s buildFrontend && electron-builder -p always",

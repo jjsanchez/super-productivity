@@ -1,6 +1,6 @@
 {
   "name": "superProductivity",
-  "version": "1.9.0",
+  "version": "1.8.1",
   "description": "Personal Task Management App to help you with your daily struggle with JIRA etc.",
   "main": "./electron/main.js",
   "author": "Johannes Millan <contact@super-productivity.com> (http://super-productivity.com)",
@@ -26,18 +26,63 @@
     "electronBulderOnly": "electron-builder",
     "electronBulderOnlyPub": "electron-builder -p always",
     "dist": "run-s buildFrontend && electron-builder",
-    "distLinuxAndWindows": "run-s buildFrontend && electron-builder --linux --win -p always",
+    "distLinuxAndWindows": "run-s buildFrontend && electron-builder --linux --win",
     "pub": "run-s buildFrontend && electron-builder -p always",
     "release": "run-s release.changelog dist",
     "release.changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
     "version": "run-s release.changelog && gulp versionConst && git add -A"
   },
+  "publish": [
+    {
+      "provider": "github",
+      "repo": "super-productivity",
+      "owner": "johannesjo"
+    }
+  ],
   "build": {
     "appId": "superProductivity",
     "files": [
       "electron/**/*",
       "app/**/*"
-    ]
+    ],
+    "mac": {
+      "category": "productivity",
+      "publish": [
+        "github"
+      ]
+    },
+    "win": {
+      "icon": "electron/assets/icons/app-icons/icon-win",
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "publish": [
+        "github"
+      ]
+    },
+    "linux": {
+      "category": "Utility",
+      "target": [
+        "AppImage",
+        "deb",
+        "snap"
+      ],
+      "publish": [
+        "github",
+        {
+          "provider": "bintray",
+          "package": "main",
+          "repo": "super-productivity",
+          "component": "super-productivity",
+          "owner": "johannesjo",
+          "distribution": "stable"
+        }
+      ]
+    },
+    "snap": {
+      "grade": "stable"
+    }
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -49,7 +94,7 @@
     "del": "latest",
     "ecstatic": "latest",
     "electron": "^1.8.2",
-    "electron-builder": "^20.3.1",
+    "electron-builder": "^20.2.0",
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-babel": "^6.1.2",

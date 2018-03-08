@@ -71,6 +71,7 @@
         {
           "provider": "bintray",
           "package": "main",
+          "user": "johannesjo@users.noreply.github.com",
           "repo": "super-productivity",
           "component": "super-productivity",
           "owner": "johannesjo",

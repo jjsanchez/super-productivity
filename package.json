@@ -75,7 +75,8 @@
           "repo": "super-productivity",
           "component": "super-productivity",
           "owner": "johannesjo",
-          "distribution": "stable"
+          "distribution": "stable",
+          "protocol": "https"
         }
       ]
     },

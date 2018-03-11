@@ -3,6 +3,16 @@ language: node_js
 node_js: '8'
 matrix:
   include:
+  - os: osx
+    osx_image: xcode9.0
+    env:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    install:
+    - brew update
+    - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+    addons:
+      chrome: stable
   - os: linux
     dist: trusty
     language: generic
@@ -29,24 +39,26 @@ before_script:
 - bower install
 script:
 - |
-  echo '____RUNNING DOCKER____'
-  docker run --rm \
-    --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
-    -v ${PWD}:/project \
-    -v ~/.cache/electron:/root/.cache/electron \
-    -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-    electronuserland/builder:wine-chrome \
-    /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn install --pure-lockfile && yarn add https://github.com/johannesjo/electron-builder && yarn run distLinuxAndWindows && ls -l ./dist"
+  if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+    echo '____RUNNING DOCKER____'
+    docker run --rm \
+      --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+      -v ${PWD}:/project \
+      -v ~/.cache/electron:/root/.cache/electron \
+      -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+      electronuserland/builder:wine-chrome \
+      /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn run distLinuxAndWindows && ls -l ./dist"
+  else
+    npm install --quiet && npm install 7zip-bin-mac && npm run pub
+  fi
 after_success:
-- openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv
-  -in .snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d
 - echo "DIST-RESULT:"
 - ls -l ./dist
-- |
-  if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-    sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
-    openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv -in .snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d
-    docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq && cd $(pwd) && snapcraft push ./dist/*.snap --release stable"
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+  sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
+  openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv
+   -in .snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d
+  docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq && cd $(pwd) && snapcraft push ./dist/*.snap --release stable"
   fi
 - |
   if [ -n "$TRAVIS_TAG" ]; then
@@ -58,12 +70,6 @@ after_success:
     sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
     sshpass -p "$DEPLOY_PASS" scp dist/super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads'
   fi
-services:
-- docker
-deploy:
-  'on':
-    branch: master
-  provider: script
-  script: docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq
-    && cd $(pwd) && snapcraft && snapcraft push *.snap --release edge"
-  skip_cleanup: true
+
+#  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superProductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'
+#  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superproductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'

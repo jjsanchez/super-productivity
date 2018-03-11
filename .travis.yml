@@ -36,7 +36,7 @@ script:
     -v ~/.cache/electron:/root/.cache/electron \
     -v ~/.cache/electron-builder:/root/.cache/electron-builder \
     electronuserland/builder:wine-chrome \
-    /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn install --pure-lockfile && yarn run distLinuxAndWindows && ls -l ./dist"
+    /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn install --pure-lockfile && yarn add https://github.com/johannesjo/electron-builder && yarn run distLinuxAndWindows && ls -l ./dist"
 after_success:
 - openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv
   -in .snapcraft/travis_snapcraft.cfg -out .snapcraft/snapcraft.cfg -d

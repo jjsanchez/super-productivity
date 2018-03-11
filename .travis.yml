@@ -60,13 +60,13 @@ after_success:
     docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq && cd $(pwd) && snapcraft push ./dist/*.snap --release stable";
   fi
 - if [ -n "$TRAVIS_TAG" ]; then
-    echo "UPLOADING BINARIES:"
-    rename "s/[0-9]+\.[0-9]+\.[0-9]+/latest/" ./dist/super*
-    rename "s/\s+/_/g" ./dist/super*
-    echo "RENAMED-DIST-RESULT:"
-    ls -l ./dist
-    sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app
-    sshpass -p "$DEPLOY_PASS" scp dist/super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads'
+    echo "UPLOADING BINARIES:";
+    rename "s/[0-9]+\.[0-9]+\.[0-9]+/latest/" ./dist/super*;
+    rename "s/\s+/_/g" ./dist/super*;
+    echo "RENAMED-DIST-RESULT:";
+    ls -l ./dist;
+    sshpass -p "$DEPLOY_PASS" rsync -avz ./app/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/app;
+    sshpass -p "$DEPLOY_PASS" scp dist/super* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/downloads';
   fi
 
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superProductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'

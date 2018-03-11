@@ -92,7 +92,7 @@
     "del": "latest",
     "ecstatic": "latest",
     "electron": "^1.8.2",
-    "electron-builder": "^20.4.0",
+    "electron-builder": "git+https://github.com/johannesjo/electron-builder.git",
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-babel": "^6.1.2",

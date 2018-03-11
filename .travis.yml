@@ -4,16 +4,16 @@ node_js: '8'
 
 matrix:
   include:
-    - os: osx
-      osx_image: xcode9.0
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-      install:
-        - brew update
-        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
-      addons:
-        chrome: stable
+#    - os: osx
+#      osx_image: xcode9.0
+#      env:
+#        - ELECTRON_CACHE=$HOME/.cache/electron
+#        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+#      install:
+#        - brew update
+#        - brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+#      addons:
+#        chrome: stable
     - os: linux
       dist: trusty
       language: generic
@@ -45,7 +45,6 @@ before_script:
 
 script:
   - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       echo '____RUNNING DOCKER____'
       docker run --rm \
         --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
@@ -54,9 +53,6 @@ script:
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine-chrome \
         /bin/bash -c "echo '____DOCKER_INNER_START____' && ls -l && yarn global add bower gulp && yarn --link-duplicates --pure-lockfile && yarn run distLinuxAndWindows && ls -l ./dist"
-    else
-      npm install --quiet && npm install 7zip-bin-mac && npm run pub
-    fi
 
 after_success:
   - 'echo "DIST-RESULT:"'

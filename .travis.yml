@@ -62,7 +62,7 @@ after_success:
       docker run -v $(pwd):$(pwd) -t snapcore/snapcraft sh -c "apt update -qq && cd $(pwd) && snapcraft push ./dist/*.snap --release stable"
     fi
   - |
-    if [ -n "$TRAVIS_TAG" ] &&  [ "$TRAVIS_OS_NAME" == "osx" ]; then
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
      cask-repair --cask-version $TRAVIS_TAG --blind-submit superproductivity
     fi
   - |

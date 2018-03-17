@@ -63,6 +63,7 @@ after_success:
     fi
   - |
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+     openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv -in build/hub.enc -out ~/.config/hub -d
      cask-repair --cask-version $TRAVIS_TAG --blind-submit superproductivity
     fi
   - |
@@ -78,3 +79,4 @@ after_success:
 
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superProductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'
 #  - 'sshpass -p "$SFG_DEPLOY_PASS" scp dist/superproductivity* $SFG_DEPLOY_USER@$SFG_DEPLOY_HOST:$SFG_DEPLOY_PATH/downloads'
+

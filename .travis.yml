@@ -66,7 +66,7 @@ after_success:
      echo $TRAVIS_TAG;
      brew update;
      openssl aes-256-cbc -K $encrypted_c04542ca1075_key -iv $encrypted_c04542ca1075_iv -in build/hub.enc -out ~/.config/hub -d
-     cask-repair --cask-version v1.9.2 --blind-submit superproductivity
+     cask-repair --cask-version 1.9.3 --blind-submit superproductivity
     fi
   - |
     if [ -n "$TRAVIS_TAG" ]; then

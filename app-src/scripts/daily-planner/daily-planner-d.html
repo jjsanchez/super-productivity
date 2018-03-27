@@ -1,7 +1,7 @@
 <div class="daily-planner">
   <h2 class="md-headline">
     <ng-md-icon icon="border_color"></ng-md-icon>
-    Plan your day!
+    <span translate-once="DP.HEADING"></span>
   </h2>
 
   <form ng-submit="vm.addTask()"
@@ -21,7 +21,7 @@
       md-item-text="task.title"
       md-require-match="false"
       autofocus-autocomplete
-      placeholder="Select or create a task">
+      placeholder="{{'DP.SELECT_OR_CREATE'|translate}}">
       <md-item-template>
           <span md-highlight-text="vm.newTaskTitle"
                 md-highlight-flags="i">{{task.title}}</span>
@@ -35,9 +35,10 @@
        layout-sm="column"
        layout-align="center center">
     <md-button class="md-raised md-primary"
-               ng-click="vm.done()">
+               ng-click="vm.done()"
+               translate-attr="{'aria-label':'DP.GO_TO_WORK'}">
       <ng-md-icon icon="playlist_play"></ng-md-icon>
-      All done! Let's get to work!
+      <span translate-once="DP.GO_TO_WORK"></span>
     </md-button>
   </div>
 
@@ -45,16 +46,15 @@
     <section>
       <h2 class="md-title">
         <ng-md-icon icon="playlist_play"></ng-md-icon>
-        Tasks for today
+        <span translate-once="DP.TASKS_FOR_TODAY"></span>
         <span ng-show="vm.totaleEstimate.asSeconds()> 0">
           ~<span ng-bind="vm.totaleEstimate|duration"></span>
         </span>
       </h2>
 
       <p ng-if="!r.tasks.length"
-         class="no-tasks-info">
-        You currently have no tasks. Create one!
-      </p>
+         class="no-tasks-info"
+         translate-once="DP.NO_TASKS"></p>
       <task-list tasks="r.tasks"
                  current-task-id="r.currentTask.id"></task-list>
     </section>
@@ -63,21 +63,20 @@
     <section>
       <h2 class="md-title">
         <ng-md-icon icon="my_library_books"></ng-md-icon>
-        Task Backlog
+        <span translate-once="DP.BACKLOG"></span>
         <span ng-show="vm.totaleEstimateBacklog.asSeconds()> 0">
           ~<span ng-bind="vm.totaleEstimateBacklog|duration"></span>
         </span>
       </h2>
 
       <p ng-if="!vm.backlogTasks.length"
-         class="no-tasks-info">
-        You have currently no tasks in the backlog.
-      </p>
+         class="no-tasks-info"
+         translate-once="DP.NO_BACKLOG_TASKS"></p>
 
       <md-input-container class="md-block search"
                           ng-show="vm.backlogTasks.length > 1"
                           flex-gt-sm>
-        <label>Search Backlog</label>
+        <label translate-once="DP.SEARCH_BACKLOG"></label>
         <input type="text"
                ng-model="vm.search">
       </md-input-container>
@@ -90,28 +89,33 @@
       <div class="backlog-buttons">
         <md-button class="md-primary"
                    ng-click="vm.limitBacklogTo = false"
-                   ng-hide="vm.limitBacklogTo === false || vm.backlogTasks.length <=vm.limitBacklogTo ||vm.backlogTasks.length ===0">
+                   ng-hide="vm.limitBacklogTo === false || vm.backlogTasks.length <=vm.limitBacklogTo ||vm.backlogTasks.length ===0"
+                   translate-attr="{'aria-label':'DP.SHOW_ALL_BACKLOG'}">
           <ng-md-icon icon="remove_red_eye"></ng-md-icon>
-          Show All <span ng-bind="vm.backlogTasks.length"></span> Items in Backlog
+          <span translate-once="DP.SHOW_ALL_BACKLOG"
+                translate-values="{count:vm.backlogTasks.length}"></span>
         </md-button>
 
         <md-button class="md-primary"
-                   ui-sref="done-tasks-backlog">
+                   ui-sref="done-tasks-backlog"
+                   translate-attr="{'aria-label':'DP.GO_TO_DONE_BACKLOG'}">
           <ng-md-icon icon="list"></ng-md-icon>
-          Go to Done Backlog
+          <span translate-once="DP.GO_TO_DONE_BACKLOG"></span>
         </md-button>
 
         <md-button class="md-primary"
                    ng-if="vm.isRemoteTasks"
-                   ng-click="vm.refreshRemoteTasks()">
+                   ng-click="vm.refreshRemoteTasks()"
+                   translate-attr="{'aria-label':'DP.REFRESH'}">
           <ng-md-icon icon="refresh"></ng-md-icon>
-          Refresh
+          <span translate-once="DP.REFRESH"></span>
         </md-button>
 
         <md-button class="md-primary md-warn"
-                   ng-click="vm.deleteBacklog()">
+                   ng-click="vm.deleteBacklog()"
+                   translate-attr="{'aria-label':'DP.CLEAR_BACKLOG'}">
           <ng-md-icon icon="delete"></ng-md-icon>
-          Clear Backlog
+          <span translate-once="DP.CLEAR_BACKLOG"></span>
         </md-button>
       </div>
     </section>

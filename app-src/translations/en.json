@@ -1,12 +1,26 @@
 {
-  "WV":{
+  "WV": {
     "WORKING_TODAY": "Working today:",
     "ESTIMATE_REMAINING": "Estimate remaining: ~:",
-    "NO_UNDONE_TASKS":"You currently have no undone tasks.",
-    "ADD_NEW_TASK":"Add new Task",
-    "FINISH_WORK_DAY":"Finish your work day",
-    "DONE_TASKS":"Done Tasks",
-    "NO_DONE_TASKS":"You currently have no done tasks.",
-    "WITHOUT_BREAK":"Without break:"
+    "NO_UNDONE_TASKS": "You currently have no undone tasks.",
+    "ADD_NEW_TASK": "Add new Task",
+    "FINISH_WORK_DAY": "Finish your work day",
+    "DONE_TASKS": "Done Tasks",
+    "NO_DONE_TASKS": "You currently have no done tasks.",
+    "WITHOUT_BREAK": "Without break:"
+  },
+  "DP": {
+    "HEADING": "Plan your day!",
+    "SELECT_OR_CREATE": "Select or create a task",
+    "GO_TO_WORK": "All done! Let's get to work!",
+    "TASKS_FOR_TODAY": "Tasks for today",
+    "NO_TASKS": "You currently have no tasks. Create one!",
+    "BACKLOG": "Task Backlog",
+    "NO_BACKLOG_TASKS": "You have currently no tasks in the backlog.",
+    "SEARCH_BACKLOG": "Search Backlog",
+    "SHOW_ALL_BACKLOG": "Show All {{count}} Items in Backlog",
+    "GO_TO_DONE_BACKLOG": "Go to Done Backlog",
+    "REFRESH": "Refresh",
+    "CLEAR_BACKLOG": "Clear Backlog"
   }
 }

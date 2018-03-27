@@ -33,7 +33,8 @@
       'hc.marked',
       'mwl.calendar',
       'angularPromiseButtons',
-      'pascalprecht.translate'
+      'pascalprecht.translate',
+      'ngSanitize'
     ])
     .config(configMdTheme)
     .config(configTranslations)
@@ -75,6 +76,7 @@
       prefix: './translations/',
       suffix: '.json'
     });
+    $translateProvider.useSanitizeValueStrategy('sanitize');
   }
 
   /* @ngInject */
